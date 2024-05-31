@@ -2,6 +2,10 @@
 Esta es la parte del frontend para la prueba técnica de SINTAD.
 Consta de una implementación de un sistema para realizar operaciones CRUD de manera visual en Angular 17.
 
+Ejecutar el proyecto con:
+
+    ng serve --open
+
 ## Prerrequisitos
 
 ### Angular Cli 17
