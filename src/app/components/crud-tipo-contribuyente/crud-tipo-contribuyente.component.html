@@ -1,0 +1,76 @@
+<div class="text-end" style="margin: 1%;">
+  <button class="btn btn-outline-primary" [routerLink]="['/dashboard']">Ir al Dashboard</button>
+</div>
+
+<div class="container">
+  <h2 class="mb-4">Crud Tipos de Contribuyentes</h2>
+  
+  <div class="mb-4  d-flex justify-content-center" style="margin: 0 15%;">
+    <div class="input-group mb-3">
+      <input type="number" class="form-control" [(ngModel)]="nuevoIdTipoContribuyente" placeholder="Ingrese el ID" />
+      <div class="input-group-append">
+        <button class="btn btn-outline-secondary" (click)="searchTipoContribuyenteById()">Buscar Tipo Contribuyente</button>
+        <button class="btn btn-outline-secondary" (click)="openModal(agregarTipoContribuyenteModal)">Agregar Tipo Contribuyente</button>
+      </div>
+    </div>
+  </div>
+  <div class="mb-4  d-flex justify-content-center" style="margin: 0 15%;">
+      <div *ngIf="tipoContribuyenteNoEncontrado" class="alert alert-danger" role="alert">
+          Tipo Contribuyente no encontrado. Intente con otro ID.
+      </div>
+  </div>
+  
+  <div *ngIf="tipoContribuyenteCompleto" class="mb-4">
+    <h3 class="mb-3">Detalles del Tipo de Contribuyente</h3>
+    <div class="card">
+      <div class="card-header d-flex justify-content-between align-items-center">
+        <span>JSON</span>
+        <button class="btn btn-sm btn-outline-secondary" (click)="ocultarJSON()">Ocultar</button>
+      </div>
+      <div class="card-body">
+        <pre class="bg-light p-3 rounded"><code>{{ tipoContribuyenteCompleto | json }}</code></pre>
+      </div>
+    </div>
+  </div>
+  
+  <h3 class="mb-3">Lista de Tipos de Contribuyentes</h3>
+  <div class="container mt-5">
+    <ul class="list-group">
+      <li class="list-group-item d-flex justify-content-between align-items-center" *ngFor="let tipoContribuyente of tipoContribuyentes">
+        <div>
+          {{ tipoContribuyente.idTipoContribuyente }} - {{ tipoContribuyente.nombre }} - {{ tipoContribuyente.estado }}
+        </div>
+        <div>
+          <button class="btn btn-outline-primary btn-sm" (click)="detailsTipoContribuyente(tipoContribuyente)">Ver Detalles</button>
+          <button class="btn btn-outline-danger btn-sm mr-2" (click)="deleteTipoContribuyente(tipoContribuyente.idTipoContribuyente)">
+            <i class="fas fa-trash"></i>
+          </button>
+        </div>
+      </li>
+    </ul>
+  </div>
+</div>
+
+
+<ng-template #agregarTipoContribuyenteModal let-modal>
+    <div class="modal-header">
+      <h5 class="modal-title" id="modal-basic-title">Agregar Tipo Contribuyente</h5>
+      <button type="button" class="btn-close" aria-label="Close" (click)="modal.dismiss('Cross click')"></button>
+    </div>
+    <div class="modal-body">
+      <form>
+        <div class="mb-3">
+          <label for="nombre" class="form-label">Nombre:</label>
+          <input type="text" class="form-control" id="nombre" name="nombre" [(ngModel)]="nuevoTipoContribuyente.nombre">
+        </div>
+        <div class="mb-3 form-check">
+          <input type="checkbox" class="form-check-input" id="estado" name="nombre" [(ngModel)]="nuevoTipoContribuyente.estado">
+          <label class="form-check-label" for="estado">Estado</label>
+        </div>
+      </form>
+    </div>
+    <div class="modal-footer">
+      <button type="button" class="btn btn-secondary" (click)="modal.dismiss('Cancel')">Cerrar</button>
+      <button type="button" class="btn btn-primary" (click)="createTipoContribuyente(); modal.close('Save click')">Guardar</button>
+    </div>
+  </ng-template>

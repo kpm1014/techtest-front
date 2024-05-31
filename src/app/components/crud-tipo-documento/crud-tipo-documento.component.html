@@ -1,0 +1,83 @@
+
+<div class="text-end" style="margin: 1%;">
+  <button class="btn btn-outline-primary" [routerLink]="['/dashboard']">Ir al Dashboard</button>
+</div>
+
+<div class="container">
+<h2 class="mb-4">Crud Tipos de Documentos</h2>
+
+<div class="mb-4  d-flex justify-content-center" style="margin: 0 15%;">
+  <div class="input-group mb-3">
+    <input type="number" class="form-control" [(ngModel)]="nuevoIdTipoDocumento" placeholder="Ingrese el ID" />
+    <div class="input-group-append">
+      <button class="btn btn-outline-secondary" (click)="searchTipoDocumentoById()">Buscar Tipo Documento</button>
+      <button class="btn btn-outline-secondary" (click)="openModal(agregarTipoDocumentoModal)">Agregar Tipo Documento</button>
+    </div>
+  </div>
+  <div *ngIf="tipoDocumentoNoEncontrado" class="alert alert-danger" role="alert">
+    Tipo Documento no encontrado. Intente con otro ID.
+  </div>
+</div>
+
+<div *ngIf="tipoDocumentoCompleto" class="mb-4">
+  <h3 class="mb-3">Detalles del Tipo de Documento</h3>
+  <div class="card">
+    <div class="card-header d-flex justify-content-between align-items-center">
+      <span>JSON</span>
+      <button class="btn btn-sm btn-outline-secondary" (click)="ocultarJSON()">Ocultar</button>
+    </div>
+    <div class="card-body">
+      <pre class="bg-light p-3 rounded"><code>{{ tipoDocumentoCompleto | json }}</code></pre>
+    </div>
+  </div>
+</div>
+
+<h3 class="mb-3">Lista de Tipos de Documentos</h3>
+<div class="container mt-5">
+  <ul class="list-group">
+    <li class="list-group-item d-flex justify-content-between align-items-center" *ngFor="let tipoDocumento of tipoDocumentos">
+      <div>
+        {{ tipoDocumento.idTipoDocumento }} - {{ tipoDocumento.nombre }} - {{ tipoDocumento.estado }}
+      </div>
+      <div>
+        <button class="btn btn-outline-primary btn-sm" (click)="detailsTipoDocumento(tipoDocumento)">Ver Detalles</button>
+        <button class="btn btn-outline-danger btn-sm mr-2" (click)="deleteTipoDocumento(tipoDocumento.idTipoDocumento)">
+          <i class="fas fa-trash"></i>
+        </button>
+      </div>
+    </li>
+  </ul>
+</div>
+</div>
+
+
+<ng-template #agregarTipoDocumentoModal let-modal>
+  <div class="modal-header">
+    <h5 class="modal-title" id="modal-basic-title">Agregar Tipo Documento</h5>
+    <button type="button" class="btn-close" aria-label="Close" (click)="modal.dismiss('Cross click')"></button>
+  </div>
+  <div class="modal-body">
+    <form>
+      <div class="mb-3">
+        <label for="codigo" class="form-label">Código:</label>
+        <input type="text" class="form-control" id="codigo" name="codigo" [(ngModel)]="nuevoTipoDocumento.codigo">
+      </div>
+      <div class="mb-3">
+        <label for="nombre" class="form-label">Nombre:</label>
+        <input type="text" class="form-control" id="nombre" name="nombre" [(ngModel)]="nuevoTipoDocumento.nombre">
+      </div>
+      <div class="mb-3">
+        <label for="descripcion" class="form-label">Descripción:</label>
+        <input type="text" class="form-control" id="descripcion" name="descripcion" [(ngModel)]="nuevoTipoDocumento.descripcion">
+      </div>
+      <div class="mb-3 form-check">
+        <input type="checkbox" class="form-check-input" id="estado" name="estado" [(ngModel)]="nuevoTipoDocumento.estado">
+        <label class="form-check-label" for="estado">Estado</label>
+      </div>
+    </form>
+  </div>
+  <div class="modal-footer">
+    <button type="button" class="btn btn-secondary" (click)="modal.dismiss('Cancel'); limpiarCampos()">Cerrar</button>
+    <button type="button" class="btn btn-primary" (click)="createTipoDocumento(); modal.close('Save click')">Guardar</button>
+  </div>
+</ng-template>
